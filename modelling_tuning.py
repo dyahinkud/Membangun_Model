@@ -1,7 +1,7 @@
 import os
 import shutil
 import warnings
-# import dagshub
+import dagshub
 import mlflow
 import pandas as pd
 
@@ -14,13 +14,11 @@ from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.pipeline import Pipeline
 
-# dagshub.init(
-#     repo_owner="dyahinkud", repo_name="Membangun_Model", mlflow=True
-# )
+dagshub.init(repo_owner="dyahinkud", repo_name="Membangun_Model", mlflow=True)
 
 # Set tracking URI untuk MLflow lokal
-mlflow.set_tracking_uri("http://localhost:5000")
-mlflow.set_experiment("sentiment-analysis-tuned")
+# mlflow.set_tracking_uri("http://localhost:5000")
+# mlflow.set_experiment("sentiment-analysis-tuned")
 
 data = pd.read_csv("./data_clean.csv")
 data = data.dropna(subset=["cleaned_text"])

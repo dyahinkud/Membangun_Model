@@ -1,6 +1,6 @@
 import mlflow
 import warnings
-# import dagshub
+import dagshub
 import pandas as pd
 from mlflow import sklearn as mlflow_sklearn
 from sklearn.linear_model import LogisticRegression
@@ -8,12 +8,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score, classification_report
 
-# dagshub.init(
-#     repo_owner="dyahinkud", repo_name="Membangun_Model", mlflow=True
-# )
+dagshub.init(repo_owner="dyahinkud", repo_name="Membangun_Model", mlflow=True)
 
-mlflow.set_tracking_uri("http://localhost:5000")
-mlflow.set_experiment("sentiment-analysis-baseline")
+# mlflow.set_tracking_uri("http://localhost:5000")
+# mlflow.set_experiment("sentiment-analysis-baseline")
 
 data = pd.read_csv("./data_clean.csv")
 data = data.dropna(subset=["cleaned_text"])
