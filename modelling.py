@@ -13,7 +13,7 @@ dagshub.init(repo_owner="dyahinkud", repo_name="Membangun_Model", mlflow=True)
 # mlflow.set_tracking_uri("http://localhost:5000")
 # mlflow.set_experiment("sentiment-analysis-baseline")
 
-data = pd.read_csv("./data_clean.csv")
+data = pd.read_csv("./sentiment_preprocessing.csv")
 data = data.dropna(subset=["cleaned_text"])
 
 X = data["cleaned_text"]
