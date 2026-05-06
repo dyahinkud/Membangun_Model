@@ -1,6 +1,5 @@
 import mlflow
 import warnings
-import dagshub
 import pandas as pd
 from mlflow import sklearn as mlflow_sklearn
 from sklearn.linear_model import LogisticRegression
@@ -8,10 +7,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score, classification_report
 
-dagshub.init(repo_owner="dyahinkud", repo_name="Membangun_Model", mlflow=True)
+mlflow.set_tracking_uri("http://127.0.0.1:5000/")
 
-# mlflow.set_tracking_uri("http://localhost:5000")
-# mlflow.set_experiment("sentiment-analysis-baseline")
+# Create a new MLflow Experiment
+mlflow.set_experiment("Sentiment Analysis")
 
 data = pd.read_csv("./sentiment_preprocessing.csv")
 data = data.dropna(subset=["cleaned_text"])
@@ -22,10 +21,6 @@ y = data["sentiment"]
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, stratify=y, random_state=42
 )
-
-# Data conversion is not needed as it causes warnings in autolog and sklearn
-# y_train = pd.DataFrame(y_train)
-# y_test = pd.DataFrame(y_test)
 
 # Suppress pickle warning from sklearn
 warnings.filterwarnings(
@@ -47,11 +42,7 @@ with mlflow.start_run():
     y_pred = model.predict(X_test_vec)
     acc = accuracy_score(y_test, y_pred)
 
-    mlflow.log_metric("accuracy_manual", float(acc))
-
     print("Accuracy:", acc)
     report = classification_report(y_test, y_pred, output_dict=False)
     print("Classification Report:\n", report)
 
-    mlflow.log_text(str(report), "classification_report.txt")
-    mlflow_sklearn.log_model(model, "model")
